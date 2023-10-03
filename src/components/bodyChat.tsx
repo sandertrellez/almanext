@@ -8,9 +8,9 @@ import Button from "./Button";
 
 const BodyChat = () => {
     
-  const {chats, to, text, setText} = useContext(ChatContext);
+  const {cargarChats, chats, to, text, setText} = useContext(ChatContext);
 
-  const sentMessage = () => {
+  const sentMessage = async () => {
     const headers = {
       //'Authorization': 'Bearer '+this.token,
       "Content-Type": "application/json"
@@ -22,19 +22,19 @@ const BodyChat = () => {
     };
 
     const data = JSON.stringify(dataJson)
-    fetch("http://localhost:3002/message/sendMessage",{
+    await fetch("http://localhost:3002/message/sendMessage",{
       method: "POST",
       headers: headers,
       body: data  ,
       redirect: 'follow'
     });
-
-    
                   
     const inputDOM =document.getElementById('text');    
     inputDOM.value='';
 
-    setText("");  
+    setText("");
+
+    cargarChats(to);
   }
 
     return (
