@@ -11,7 +11,6 @@ export default function Sidebar () {
         then(response => response.json())
         .then((data) =>{
             setMessage(data);
-            //console.log(data);
         }).catch(error => console.log(error))
     }
 
@@ -24,11 +23,11 @@ export default function Sidebar () {
             <div className="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-700">
                 <ul className="space-y-1">
                     {message ? (
-                        message.map((msg) => (
+                        message.map(({message}) => (
                             <ItemChat
-                                key={msg._id}
-                                to={msg.to}
-                                text={msg.template}
+                                key={message._id}
+                                to={message.to}
+                                text={message.text || message.template}
                             />
                         ))
                     ) : (
