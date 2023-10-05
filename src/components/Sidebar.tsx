@@ -1,17 +1,29 @@
 "use client"
+import { AuthContext } from "@/context/auth";
 import ItemChat from "./ItemChat";
-import {useState, useEffect} from "react";
+import {useState, useEffect, useContext} from "react";
 export default function Sidebar () {
+
+    const { getCookie } = useContext(AuthContext);
 
 
     const [message, setMessage] = useState();       
 
     const callMessageWhatsapp = () =>{
-        fetch('http://localhost:3002/message').
+
+        const headers = {
+            'Authorization': 'Bearer '+getCookie("token"),
+            "Content-Type": "application/json"
+        }
+
+        fetch('http://localhost:3002/message',{
+            headers: headers
+        }).
         then(response => response.json())
         .then((data) =>{
             setMessage(data);
-        }).catch(error => console.log(error))
+        })
+        .catch(error => console.log(error))
     }
 
     useEffect(

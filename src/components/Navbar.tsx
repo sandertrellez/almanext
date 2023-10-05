@@ -1,10 +1,23 @@
+"use client"
+import { useRouter } from 'next/navigation';
 import Button from './Button';
 import ItemNav from './ItemNav';
+import { useContext } from 'react';
+import { AuthContext } from '@/context/auth';
 
 export default function Navbar() {
+    const router = useRouter();
 
-    return(
-        
+    const { getCookie } = useContext(AuthContext);
+
+    if(!getCookie("token")) router.push("/login");
+
+    const logOut = () => {
+        document.cookie = 'token=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+        router.push('/login');
+    }
+
+    return(        
         <nav className="bg-gray-900 fixed w-full z-20 top-0 left-0">
             <div className="max-w-screen-xl flex items-center justify-between mx-auto p-4">
                 <a href="/" className="flex items-center">
@@ -13,7 +26,9 @@ export default function Navbar() {
                 </a>
 
                 <div className="flex order-2">
-                    <Button text="Salir"/>
+                    <Button
+                    text="Salir"
+                    event={logOut}/>
                 </div>
 
                 <div className="">

@@ -1,18 +1,19 @@
-import {useContext, useEffect} from "react";
+import {useContext} from "react";
 import { ChatContext } from '@/context/chats';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {  faFaceLaugh,faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 import Button from "./Button";
-
-
+import { AuthContext } from "@/context/auth";
 
 const BodyChat = () => {
+
+  const { getCookie } = useContext(AuthContext);
     
   const {cargarChats, chats, to, text, setText} = useContext(ChatContext);
 
   const sentMessage = async () => {
     const headers = {
-      //'Authorization': 'Bearer '+this.token,
+      'Authorization': 'Bearer '+getCookie("token"),
       "Content-Type": "application/json"
     }
 
